@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <TITLE> Meu Slide</TITLE>
+        
+        <style>
+            /* Estilização da div*/
+            #slide{
+                border: 1px solid black;
+                width: 1000px;
+                height: 300px;
+            }
+
+            #position{
+                background-color: black;
+                border: 1px solid black;
+                width: 100px;
+                height: 25px;
+                margin-left: 450px;
+                margin-top: 270px;
+            }
+
+            .ballSlide{
+                background-color: red;     
+                float: left;
+                width: 15px;
+                height: 15px;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+                border-bottom-left-radius: 10px;
+                margin-top: 4px;
+                margin-left:14px;
+            }
+
+        </style>
+    </head>
+
+        <script>
+            
+            var cont = 1; /////////////// Lista numero de imgs
+            function listImg(){        // que vai aparecer no slide
+                trocaImg(cont);        //    
+                if(cont == 3){         //
+                    cont=1;            //
+                }else{                 //      
+                    ++cont;            //
+                }                      //
+            }////////////////////////////
+
+            function trocaImg(cont){ ///////////////////////////////////////// Troca img do 
+                let obj;                                                    // slide
+                obj=document.getElementById("slide");                       //
+                obj.style.backgroundImage="url(foto"+cont+".png)";          //
+                ballSlide(cont);                                            //
+            } ////////////////////////////////////////////////////////////////
+            
+
+            function ballSlide(cont){ ////////////////////////////////////// Bolinhas que aparece no slide 
+                let reset = document.getElementsByClassName("ballSlide"); //
+                for(var i = 0; i < reset.length; i++){                    //
+                    reset[i].style.background = "red";                    //
+                }                                                         //
+                let ball;                                                 //
+                ball=document.getElementById("ball"+cont);                //
+                ball.style.background="blue";                             //
+            }///////////////////////////////////////////////////////////////
+
+            function pauseSlide(){////////////////////////////////////// Pause o slide se passar o mouse por cima
+                var x = document.getElementById("slide");             //               
+                x.addEventListener("mouseover", executarPauseSlide);  // 
+                x.addEventListener("mouseout", executarPauseSlide);   //
+            }                                                         //
+                                                                      // 
+            var ligando = 0;                                          //
+            function executarPauseSlide(){                            //
+                if(ligando == 0){                                     //
+                    ligando = 1;                                      //
+                    return ligando;                                   //
+                }else if(ligando == 1){                               //
+                    ligando = 0;                                      //
+                    anima();                                          //
+                    return ligando;                                   //
+                }                                                     //
+            }///////////////////////////////////////////////////////////
+            
+            var tempoTroca = 0; ///////////////////////////////////////////////////////////// Codigo responsavel por unir
+            function anima(){                                                              // todas as function e fazer o 
+                if(ligando == 0){                                                          // slide funcionar 
+                    tempoTroca++; /////////// Vc pode alterar 300 e 3, esses dois valores  //                                             
+                    if(tempoTroca >= 200){ // controla o tempo que o slide vai demorar     //
+                        tempoTroca = 0; ///// para passar de uma foto pra outra            //
+                        listImg();                                                         //                    
+                    }                                                                      //
+                window.requestAnimationFrame(anima);                                       //                                                                   
+                }else if(ligando == 1){/////////////////// Pause slide                     //
+                    window.cancelAnimationFrame(anima); //                                 //
+                }/////////////////////////////////////////                                 //
+            }                                                                              //
+            /////////////////////////////////////////////////////////////////////////////////
+
+           
+            function ball1(n){//////////////////////////////////////////////////////////////////// Troca slide
+                executeBall(n);                                                                 // manualmente
+            }                                                                                   //
+                                                                                                //
+            function ball2(n){                                                                  //
+                executeBall(n);                                                                 //
+            }                                                                                   //
+                                                                                                //
+            function ball3(n){                                                                  //
+                executeBall(n);                                                                 //
+            }                                                                                   //
+                                                                                                //
+            function executeBall(n){                                                            //
+                document.getElementById("slide").style.backgroundImage = "url(foto"+n+".png)";  //
+                tempoTroca = 0;                                                                 //
+                trocaImg(n);                                                                    //
+                if(n < 3){                                                                      //
+                    ++n;                                                                        //
+                    cont = n;                                                                   //
+                }else{                                                                          //
+                    cont = 1;                                                                   //
+                }                                                                               //   
+            }/////////////////////////////////////////////////////////////////////////////////////
+
+            function ballPointer(){/////////////////////////////////////////////////// Exibe ponteiro quando passamos o cursor
+                let ponto = document.getElementsByClassName("ballSlide");           // na bolinha do slide
+                for(var i = 0; i < ponto.length; i++){                              //
+                    ponto[i].style.cursor = "pointer";                              //
+                }                                                                   //
+            } ////////////////////////////////////////////////////////////////////////
+
+            window.addEventListener("load", anima); ////////////////// Espera todo codigo 
+            window.addEventListener("load", pauseSlide);            // carregar pra dps
+            window.addEventListener("load", listImg);               // começar executar 
+            window.addEventListener("load", ballPointer); //////////// tudo 
+
+        </script>
+    <body>
+
+        <div id="slide">
+
+            <div id="position">
+                <div class="ballSlide" onclick="ball1(1)" id="ball1"></div>
+                <div class="ballSlide" onclick="ball2(2)" id="ball2"></div>
+                <div class="ballSlide" onclick="ball3(3)" id="ball3"></div>
+            <div>
+
+        </div>
+
+    </body>
+</html>
